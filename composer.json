@@ -1,5 +1,5 @@
 {
-    "name": "alcamo/json",
+    "name": "alcamo/xml-creation",
     "description": "Simple classes to create XML code without need for a factory",
     "keywords": [ "xml", "factory" ],
     "license": "Apache-2.0",
