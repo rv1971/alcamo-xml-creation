@@ -3,6 +3,12 @@
 namespace alcamo\xml_creation;
 
 /**
+ * @namespace alcamo::xml_creation
+ *
+ * @brief Simple classes to create XML code without need for a factory
+ */
+
+/**
  * @brief XML node that can be serialized to XML text
  *
  * @date Last reviewed 2021-06-15
