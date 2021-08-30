@@ -29,7 +29,7 @@ class Comment extends AbstractNode
     }
 
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         return "<!-- $this->content_ -->";
     }

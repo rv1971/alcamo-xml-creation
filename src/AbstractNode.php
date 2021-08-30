@@ -29,5 +29,5 @@ abstract class AbstractNode implements NodeInterface
     }
 
     /// @copydoc NodeInterface::__toString()
-    abstract public function __toString();
+    abstract public function __toString(): string;
 }

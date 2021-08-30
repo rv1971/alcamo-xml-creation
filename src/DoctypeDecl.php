@@ -46,7 +46,7 @@ class DoctypeDecl extends AbstractNode
     }
 
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         $result = "<!DOCTYPE $this->name_";
 

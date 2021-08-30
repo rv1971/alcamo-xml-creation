@@ -41,7 +41,7 @@ class TokenList implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /// Serialize to space-separated list
-    public function __toString()
+    public function __toString(): string
     {
         return $this->join(' ');
     }

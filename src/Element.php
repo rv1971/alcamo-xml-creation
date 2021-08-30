@@ -109,7 +109,7 @@ class Element extends AbstractNode implements
 
 
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         $result = "<{$this->tagName_}{$this->createAttrString()}";
 

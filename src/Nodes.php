@@ -47,7 +47,7 @@ class Nodes extends Collection
     }
 
     /// Serialized XML text
-    public function __toString()
+    public function __toString(): string
     {
         return static::toXmlString($this->data_);
     }

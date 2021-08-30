@@ -10,7 +10,7 @@ namespace alcamo\xml_creation;
 class Raw extends AbstractNode
 {
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->content_;
     }

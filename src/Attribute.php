@@ -39,7 +39,7 @@ class Attribute extends AbstractNode
     }
 
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         /**
          * If the content is an array or iterable, serialize it to a

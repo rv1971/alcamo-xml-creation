@@ -76,7 +76,7 @@ class XmlDecl implements NodeInterface
     }
 
     /// @copydoc NodeInterface::__toString()
-    public function __toString()
+    public function __toString(): string
     {
         $result =
             "<?xml version=\"$this->version_\" encoding=\"$this->encoding_\"";

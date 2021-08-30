@@ -13,5 +13,5 @@ interface NodeInterface
     public function getContent();
 
     /// Serialized XML text
-    public function __toString();
+    public function __toString(): string;
 }
