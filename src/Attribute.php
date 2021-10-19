@@ -21,10 +21,11 @@ class Attribute extends AbstractNode
         if (!preg_match(Syntax::NAME_REGEXP, $name)) {
             /** @throw alcamo::exception::SyntaxError if $name is not a valid
              *  name. */
-            throw new SyntaxError(
-                $name,
-                null,
-                '; not a valid XML attribute name'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $name,
+                    'extraMessage' => 'not a valid XML attribute name'
+                ]
             );
         }
 

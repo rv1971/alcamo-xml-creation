@@ -36,8 +36,12 @@ class Element extends AbstractNode implements
         if (!preg_match(Syntax::NAME_REGEXP, $tagName)) {
             /** @throw alcamo::exception::SyntaxError if $tagName is not a
              *  valid tag name. */
-            throw
-                new SyntaxError($tagName, null, '; not a valid XML tag name');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $tagName,
+                    'extraMessage' => 'not a valid XML tag name'
+                ]
+            );
         }
 
         $this->tagName_ = $tagName;
@@ -47,15 +51,13 @@ class Element extends AbstractNode implements
                 if (!preg_match(Syntax::NAME_REGEXP, $attrName)) {
                     /** @throw alcamo::exception::SyntaxError if $attrs
                      *  contains a key which is not a valid attribute name. */
-                    $e = new SyntaxError(
-                        $attrName,
-                        null,
-                        '; not a valid XML attribute name'
+                    throw (new SyntaxError())->setMessageContext(
+                        [
+                            'inData' => $attrName,
+                            'extraMessage' => 'not a valid XML attribute name',
+                            'tagName' => $tagName
+                        ]
                     );
-
-                    $e->tagName = $tagName;
-
-                    throw $e;
                 }
 
                 $this->data_[$attrName] = $attrValue;

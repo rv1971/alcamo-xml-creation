@@ -18,10 +18,12 @@ class Comment extends AbstractNode
         if (strpos($content, '--') !== false) {
             /** @throw alcamo::exception::SyntaxError if $content contains
              *  double hyphen. */
-            throw new SyntaxError(
-                $content,
-                strpos($content, '--'),
-                '; double-hyphen in XML comment'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $content,
+                    'atOffset' => strpos($content, '--'),
+                    'extraMessage' => 'double-hyphen in XML comment'
+                ]
             );
         }
 

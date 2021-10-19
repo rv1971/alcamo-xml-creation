@@ -40,9 +40,9 @@ class CommentTest extends TestCase
 
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "'
-            . substr($text, 0, 40)
-            . '..." at 26: "-- no sea ..."; double-hyphen in XML comment'
+            'Syntax error in "Stet clita kasd gubergren -- no sea t..."'
+            . ' at offset 26 ("-- no sea takimata sanctus est Lorem ..."); '
+            . 'double-hyphen in XML comment'
         );
 
         $comment = new Comment($text);

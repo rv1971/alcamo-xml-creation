@@ -93,13 +93,13 @@ class ElementTest extends TestCase
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "424242"; not a valid XML attribute name'
+            'Syntax error in 424242; not a valid XML attribute name'
         );
 
         try {
             new Element('quux', [ '424242' => 'bar' ]);
         } catch (SyntaxError $e) {
-            $this->assertSame('quux', $e->tagName);
+            $this->assertSame('quux', $e->getMessageContext()['tagName']);
 
             throw $e;
         }

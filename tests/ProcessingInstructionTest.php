@@ -52,9 +52,7 @@ class ProcessingInstructionTest extends TestCase
 
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
-            'Syntax error in "'
-            . $text
-            . '" at 15: "?>"; "?>" in XML PI'
+            'Syntax error in "dolor sit amet ?>" at offset 15 ("?>"); "?>" in XML PI'
         );
 
         $pi = new ProcessingInstruction('bar', $text);

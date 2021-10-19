@@ -21,7 +21,12 @@ class ProcessingInstruction extends AbstractNode
         if (!preg_match(Syntax::NAME_REGEXP, $target)) {
             /** @throw alcamo::exception::SyntaxError if $traget is not a
              *  valid PI target. */
-            throw new SyntaxError($target, null, '; not a valid XML PI target');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $target,
+                    'extraMessage' => 'not a valid XML PI target'
+                ]
+            );
         }
 
         $this->target_ = $target;
@@ -29,10 +34,12 @@ class ProcessingInstruction extends AbstractNode
         if (strpos($content, '?>') !== false) {
           /** @throw alcamo::exception::SyntaxError if $content contains
            *  "?>". */
-            throw new SyntaxError(
-                $content,
-                strpos($content, '?>'),
-                '; "?>" in XML PI'
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $content,
+                    'atOffset' => strpos($content, '?>'),
+                    'extraMessage' => '"?>" in XML PI'
+                ]
             );
         }
 

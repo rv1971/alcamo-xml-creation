@@ -36,7 +36,12 @@ class XmlDecl implements NodeInterface
         ) {
             /** @throw alcamo::exception::SyntaxError if $version is not a
              *  valid version. */
-            throw new SyntaxError($version, null, '; not a valid XML version');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $version,
+                    'extraMessage' => 'not a valid XML version'
+                ]
+            );
         }
 
         $this->version_ = $version ?? '1.0';
@@ -46,7 +51,12 @@ class XmlDecl implements NodeInterface
         ) {
             /** @throw alcamo::exception::SyntaxError if $encoding is not a
              *  valid encoding. */
-            throw new SyntaxError($encoding, null, '; not a valid XML encoding');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $encoding,
+                    'extraMessage' => 'not a valid XML encoding'
+                ]
+            );
         }
 
         $this->encoding_ = $encoding ?? 'UTF-8';

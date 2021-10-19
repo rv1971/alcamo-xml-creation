@@ -25,8 +25,12 @@ class DoctypeDecl extends AbstractNode
         if (!preg_match(Syntax::NAME_REGEXP, $name)) {
           /** @throw alcamo::exception::SyntaxError if $name is not a valid
            *  doctype name. */
-            throw
-                new SyntaxError($name, null, '; not a valid XML doctype name');
+            throw (new SyntaxError())->setMessageContext(
+                [
+                    'inData' => $name,
+                    'extraMessage' => 'not a valid XML doctype name'
+                ]
+            );
         }
 
         $this->name_ = $name;
