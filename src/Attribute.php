@@ -42,11 +42,15 @@ class Attribute extends AbstractNode
     /// @copydoc NodeInterface::__toString()
     public function __toString(): string
     {
-        /**
-         * If the content is an array or iterable, serialize it to a
-         * space-separated list.
-         */
-        if (is_array($this->content_)) {
+        /** Return empty string if attribute value is `null`, thus omitting
+         *  attributes with value `null`. */
+        if (!isset($this->content_)) {
+            return '';
+        } elseif (is_array($this->content_)) {
+            /**
+             * If the content is an array or iterable, serialize it to a
+             * space-separated list.
+             */
             $valueString = implode(' ', $this->content_);
         } elseif (is_iterable($this->content_)) {
             $valueString = '';
@@ -62,15 +66,6 @@ class Attribute extends AbstractNode
             $valueString = (string)$this->content_;
         }
 
-        /** Return empty string if attribute value is empty, thus omitting
-         *  attributes with empty value.
-         *
-         * @warning Hence it is not possible to have attributes with empty
-         * value in the serialized XML text, except by overriding this method
-         * in a derived class.
-         */
-        return $valueString
-            ? "{$this->name_}=\"" . htmlspecialchars($valueString) . '"'
-            : '';
+        return "{$this->name_}=\"" . htmlspecialchars($valueString) . '"';
     }
 }
