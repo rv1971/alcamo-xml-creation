@@ -49,9 +49,14 @@ class Attribute extends AbstractNode
         } elseif (is_array($this->content_)) {
             /**
              * If the content is an array or iterable, serialize it to a
-             * space-separated list.
+             * space-separated list. Return empty string for empty attributes
+             * or iterables.
              */
-            $valueString = implode(' ', $this->content_);
+            if ($this->content_) {
+                $valueString = implode(' ', $this->content_);
+            } else {
+                return '';
+            }
         } elseif (is_iterable($this->content_)) {
             $valueString = '';
 
@@ -61,6 +66,10 @@ class Attribute extends AbstractNode
                 } else {
                     $valueString = $item;
                 }
+            }
+
+            if ($valueString == '') {
+                return '';
             }
         } else {
             $valueString = (string)$this->content_;

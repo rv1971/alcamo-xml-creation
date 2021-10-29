@@ -42,6 +42,18 @@ class AttributeTest extends TestCase
         'empty-array-content' => [
         'baz',
         [],
+        ''
+        ],
+
+        'empty-object-content' => [
+        'baz',
+        new Collection(),
+        ''
+        ],
+
+        'empty-string' => [
+        'baz',
+        '',
         'baz=""'
         ],
 
