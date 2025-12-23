@@ -46,6 +46,8 @@ class Element extends AbstractNode implements
 
         $this->tagName_ = $tagName;
 
+        $this->data_ = [];
+
         if (isset($attrs)) {
             foreach ($attrs as $attrName => $attrValue) {
                 if (!preg_match(Syntax::NAME_REGEXP, $attrName)) {
@@ -116,7 +118,7 @@ class Element extends AbstractNode implements
         $result = "<{$this->tagName_}{$this->createAttrString()}";
 
         if (isset($this->content_)) {
-            /** Use Nodes::toXmlString() to serilaize the content. */
+            /** Use Nodes::toXmlString() to serialize the content. */
             $result .= '>'
                 . Nodes::toXmlString($this->content_)
                 . "</{$this->tagName_}>";
