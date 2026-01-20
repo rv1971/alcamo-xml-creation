@@ -11,6 +11,18 @@ use alcamo\collection\Collection;
  */
 class Nodes extends Collection
 {
+    private static $formatOutput_;
+
+    public static function getFormatOutput(): bool
+    {
+        return self::$formatOutput_;
+    }
+
+    public static function setFormatOutput(bool $formatOutput): void
+    {
+        self::$formatOutput_ = $formatOutput;
+    }
+
     /**
      * @brief Return serialized XML text
      *
@@ -19,17 +31,19 @@ class Nodes extends Collection
      * - Encode any other data with
      *   [htmlspecialchars()](https://www.php.net/manual/en/function.htmlspecialchars).
      */
-    public static function toXmlString($data): string
+    public static function toXmlString($data, ?bool $isNested = null): string
     {
         switch (true) {
             case $data instanceof NodeInterface:
-                return $data;
+                return $isNested && self::$formatOutput_
+                    ? $data . PHP_EOL
+                    : $data;
 
             case is_iterable($data):
-                $output = '';
+                $output = $isNested && self::$formatOutput_ ? PHP_EOL : '';
 
                 foreach ($data as $item) {
-                    $output .= static::toXmlString($item);
+                    $output .= static::toXmlString($item, true);
                 }
 
                 return $output;
