@@ -132,7 +132,7 @@ class Element extends AbstractNode implements
 
             case isset($this->content_):
                 return $result .= '>'
-                    . Nodes::toXmlString($this->content_, true)
+                    . Nodes::toXmlString($this->content_, 2)
                     . "</{$this->tagName_}>";
 
             default:

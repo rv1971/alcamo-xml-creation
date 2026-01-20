@@ -28,4 +28,34 @@ class NodesTest extends TestCase
 
         $this->assertEquals($allData, $nodes->getNodes());
     }
+
+    public function testFormatOutput(): void
+    {
+        $nodes = new Nodes(
+            new Element('foo', null, 'Lorem ipsum'),
+            new Element('bar', null, new Element('baz')),
+            new Element(
+                'qux',
+                null,
+                [
+                    new Element('quux'),
+                    new Element('corge')
+                ]
+            )
+        );
+
+        Nodes::setFormatOutput(true);
+
+        $this->assertSame(
+            '<foo>Lorem ipsum</foo>' . PHP_EOL
+                . '<bar>' . PHP_EOL
+                . '<baz/>' . PHP_EOL
+                . '</bar>' . PHP_EOL
+                . '<qux>' . PHP_EOL
+                . '<quux/>' . PHP_EOL
+                . '<corge/>' . PHP_EOL
+                . '</qux>' . PHP_EOL,
+            (string)$nodes
+        );
+    }
 }

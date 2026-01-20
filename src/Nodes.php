@@ -7,6 +7,15 @@ use alcamo\collection\Collection;
 /**
  * @brief Array of XML nodes that can be serialized to XML text
  *
+ * @attention Provides an optional formatting out output, but a very basic
+ * one:
+ * - No indenttation takes place.
+ * - If the only content of an element is neither an implenentation of
+ * alcamo::xml_creation::NodeInterface nor an iterable, it is output without
+ * surrounding space. Otherwise, line breaks are inserted between content
+ * items, which may introduce unwanted whitespace. The output formatting is
+ * mainly intended to facilitate debugging.
+ *
  * @date Last reviewed 2026-01-20
  */
 class Nodes extends Collection
@@ -26,24 +35,28 @@ class Nodes extends Collection
     /**
      * @brief Return serialized XML text
      *
+     * @param $nesting Must be 2 when called from
+     * alcamo::xml_creation::Element::__toString() and 1 when called from
+     * toXmlString().
+     *
      * - Invoke __toString() on NodeInterface objects.
      * - Handle iterables recursively by calling toXmlString() on each item.
      * - Encode any other data with
      *   [htmlspecialchars()](https://www.php.net/manual/en/function.htmlspecialchars).
      */
-    public static function toXmlString($data, ?bool $isNested = null): string
+    public static function toXmlString($data, ?int $nesting = null): string
     {
         switch (true) {
             case $data instanceof NodeInterface:
-                return $isNested && self::$formatOutput_
-                    ? $data . PHP_EOL
+                return $nesting && self::$formatOutput_
+                    ? ($nesting == 2 ? PHP_EOL : '') . $data . PHP_EOL
                     : $data;
 
             case is_iterable($data):
-                $output = $isNested && self::$formatOutput_ ? PHP_EOL : '';
+                $output = $nesting && self::$formatOutput_ ? PHP_EOL : '';
 
                 foreach ($data as $item) {
-                    $output .= static::toXmlString($item, true);
+                    $output .= static::toXmlString($item, 1);
                 }
 
                 return $output;
