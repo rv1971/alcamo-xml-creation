@@ -31,7 +31,18 @@ class CommentTest extends TestCase
 
         $this->assertSame($text, $comment->getContent());
 
-        $this->assertEquals("<!-- $text -->", (string)$comment);
+        $this->assertEquals("<!--$text-->", (string)$comment);
+
+        $text = 'Lorem ipsum & dolor';
+
+        $comment = new Comment($text);
+
+        $this->assertSame($text, $comment->getContent());
+
+        $this->assertEquals(
+            '<!--Lorem ipsum &amp; dolor-->',
+            (string)$comment
+        );
     }
 
     public function testException(): void

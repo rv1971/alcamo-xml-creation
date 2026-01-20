@@ -30,17 +30,19 @@ $xml = new Nodes(
         'foo',
         [ 'xml:lang' => 'is' ],
         [
-            new Comment('Lorem <ipsum> dolor.'),
-            new Element('bar', [ 'id' => 'my-bar' ]),
+            new Comment(' Lorem ipsum & dolor. '),
+            new Element(
+                'bar',
+                [ 'id' => 'my-bar' ],
+                'sed diam <nonumy> eirmod tempor'
+            ),
             new Raw('<baz>consetetur sadipscing elitr</baz>')
         ]
     )
 );
 
-echo $xml;
-
-echo PHP_EOL;
+echo $xml . PHP_EOL;
 
 Nodes::setFormatOutput(false);
 
-echo $xml;
+echo $xml . PHP_EOL;
