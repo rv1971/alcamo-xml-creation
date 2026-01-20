@@ -13,8 +13,6 @@ use alcamo\xml_creation\{
 
 include $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
-Nodes::setFormatOutput(true);
-
 $xml = new Nodes(
     new XmlDecl(),
     new DoctypeDecl(
@@ -40,6 +38,8 @@ $xml = new Nodes(
         ]
     )
 );
+
+Nodes::setFormatOutput(true);
 
 echo $xml . PHP_EOL;
 
