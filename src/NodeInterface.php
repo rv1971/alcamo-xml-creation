@@ -5,7 +5,7 @@ namespace alcamo\xml_creation;
 /**
  * @brief XML node that can be serialized to XML text
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 interface NodeInterface
 {

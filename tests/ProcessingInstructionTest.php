@@ -7,7 +7,7 @@ use alcamo\exception\SyntaxError;
 
 class ProcessingInstructionTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         $text = 'At vero eos et accusam et justo duo dolores et ea rebum.';
 
@@ -25,15 +25,18 @@ class ProcessingInstructionTest extends TestCase
   /**
    * @dataProvider targetExceptionProvider
    */
-    public function testTargetException($target, $content, $expectedMessage)
-    {
+    public function testTargetException(
+        $target,
+        $content,
+        $expectedMessage
+    ): void {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage($expectedMessage);
 
         new ProcessingInstruction($target, $content);
     }
 
-    public function targetExceptionProvider()
+    public function targetExceptionProvider(): array
     {
         $content = 'bar="baz"';
 
@@ -46,7 +49,7 @@ class ProcessingInstructionTest extends TestCase
         ];
     }
 
-    public function testContentException()
+    public function testContentException(): void
     {
         $text = 'dolor sit amet ?>';
 

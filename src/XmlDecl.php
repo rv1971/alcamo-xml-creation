@@ -3,19 +3,17 @@
 namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
+use alcamo\xml\Syntax;
 
 /**
  * @brief XML declaration that can be serialized to XML text
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class XmlDecl implements NodeInterface
 {
-    public const ENCODING_REGEXP = '/^[A-Za-z][-A-Za-z0-9._]*$/';
-    public const VERSION_REGEXP = '/^1.\d+$/';
-
-    protected $version_;
-    protected $encoding_;
+    protected $version_;    ///< string
+    protected $encoding_;   ///< string
     protected $standalone_; ///< bool
 
     /**
@@ -32,7 +30,7 @@ class XmlDecl implements NodeInterface
         ?bool $standalone = null
     ) {
         if (
-            isset($version) && !preg_match(self::VERSION_REGEXP, $version)
+            isset($version) && !preg_match(Syntax::VERSION_NUM_REGEXP, $version)
         ) {
             /** @throw alcamo::exception::SyntaxError if $version is not a
              *  valid version. */
@@ -47,7 +45,7 @@ class XmlDecl implements NodeInterface
         $this->version_ = $version ?? '1.0';
 
         if (
-            isset($encoding) && !preg_match(self::ENCODING_REGEXP, $encoding)
+            isset($encoding) && !preg_match(Syntax::ENC_NAME_REGEXP, $encoding)
         ) {
             /** @throw alcamo::exception::SyntaxError if $encoding is not a
              *  valid encoding. */
@@ -64,7 +62,11 @@ class XmlDecl implements NodeInterface
         $this->standalone_ = $standalone ?? false;
     }
 
-    /// @copydoc NodeInterface::getContent()
+    /**
+     * @copybrief alcamo::xml_creation::NodeInterface::getContent()
+     *
+     * Always returns `null`.
+     */
     public function getContent()
     {
         return null;
@@ -85,7 +87,6 @@ class XmlDecl implements NodeInterface
         return $this->standalone_;
     }
 
-    /// @copydoc NodeInterface::__toString()
     public function __toString(): string
     {
         $result =

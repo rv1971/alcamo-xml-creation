@@ -14,7 +14,7 @@ use alcamo\collection\{
 /**
  * @brief Set of space-separated tokens similar to DOMTokenList in JavaScript
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class TokenList implements \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -26,18 +26,22 @@ class TokenList implements \Countable, \IteratorAggregate, \ArrayAccess
 
     protected $data_; ///< Set
 
+    /**
+     * @param iterable|string $tokens If not iterable, $tokens is converted to
+     * a string and splitted at whitespace.
+     */
     public function __construct($tokens = null)
     {
         if (!isset($tokens)) {
             $this->data_ = new Set();
             return;
-        } elseif (!is_iterable($tokens)) {
-          /** If $tokens is not iterable, convert it to a string and split it
-           * at whitespace. */
-            $tokens = preg_split('/\s+/', $tokens);
         }
 
-        $this->data_ = new Set($tokens);
+        $this->data_ = new Set(
+            is_iterable($tokens)
+                ? $tokens
+                : preg_split('/\s+/', $tokens)
+        );
     }
 
     /// Serialize to space-separated list

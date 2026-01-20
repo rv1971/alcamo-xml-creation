@@ -10,16 +10,16 @@ use alcamo\xml\Syntax;
  *
  * @sa [XML processing instructions](https://www.w3.org/TR/xml/#sec-pi)
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class ProcessingInstruction extends AbstractNode
 {
     protected $target_; ///< string
 
-    public function __construct(string $target, $content)
+    public function __construct(string $target, string $content)
     {
         if (!preg_match(Syntax::NAME_REGEXP, $target)) {
-            /** @throw alcamo::exception::SyntaxError if $traget is not a
+            /** @throw alcamo::exception::SyntaxError if $target is not a
              *  valid PI target. */
             throw (new SyntaxError())->setMessageContext(
                 [

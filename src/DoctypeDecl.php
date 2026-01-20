@@ -10,17 +10,17 @@ use alcamo\xml\Syntax;
  *
  * @sa [XML doctype declarations](https://www.w3.org/TR/xml/#sec-prolog-dtd)
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class DoctypeDecl extends AbstractNode
 {
-    protected $name_; ///< string
-    protected $externalId_;
+    protected $name_;       ///< string
+    protected $externalId_; ///< ?string
 
     public function __construct(
         string $name,
-        $externalId = null,
-        $intSubset = null
+        ?string $externalId = null,
+        ?string $intSubset = null
     ) {
         if (!preg_match(Syntax::NAME_REGEXP, $name)) {
           /** @throw alcamo::exception::SyntaxError if $name is not a valid
@@ -44,12 +44,11 @@ class DoctypeDecl extends AbstractNode
         return $this->name_;
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId_;
     }
 
-    /// @copydoc NodeInterface::__toString()
     public function __toString(): string
     {
         $result = "<!DOCTYPE $this->name_";

@@ -4,11 +4,11 @@ namespace alcamo\xml_creation;
 
 use PHPUnit\Framework\TestCase;
 
-/* xmlString() is implicitely tested in ElementTest.php */
+/* toXmlString() is implicitely tested in ElementTest.php */
 
 class NodesTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         $data1 = [ 'a', 'B' ];
         $data2 = [ 'CC', 'ddd' ];

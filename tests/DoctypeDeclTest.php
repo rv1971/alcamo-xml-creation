@@ -15,7 +15,7 @@ class DoctypeDeclTest extends TestCase
         $externalId,
         $intSubset,
         $expectedString
-    ) {
+    ): void {
         $decl = new DoctypeDecl($name, $externalId, $intSubset);
 
         $this->assertSame($name, $decl->getName());
@@ -24,21 +24,21 @@ class DoctypeDeclTest extends TestCase
         $this->assertEquals($expectedString, (string)$decl);
     }
 
-    public function basicsProvider()
+    public function basicsProvider(): array
     {
         return [
-        [ 'html', null, null, '<!DOCTYPE html>' ],
-        [
-        'xs:schema',
-        'PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" "XMLSchema.dtd"',
-        '<!ATTLIST xs:schema id ID #IMPLIED>',
-        '<!DOCTYPE xs:schema PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" '
-        . '"XMLSchema.dtd" [ <!ATTLIST xs:schema id ID #IMPLIED> ]>'
-        ]
+            [ 'html', null, null, '<!DOCTYPE html>' ],
+            [
+                'xs:schema',
+                'PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" "XMLSchema.dtd"',
+                '<!ATTLIST xs:schema id ID #IMPLIED>',
+                '<!DOCTYPE xs:schema PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" '
+                . '"XMLSchema.dtd" [ <!ATTLIST xs:schema id ID #IMPLIED> ]>'
+            ]
         ];
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(

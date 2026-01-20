@@ -9,11 +9,11 @@ use alcamo\exception\SyntaxError;
  *
  * @sa [XML comments](https://www.w3.org/TR/xml/#sec-comments)
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class Comment extends AbstractNode
 {
-    public function __construct($content)
+    public function __construct(string $content)
     {
         if (strpos($content, '--') !== false) {
             /** @throw alcamo::exception::SyntaxError if $content contains
@@ -30,7 +30,6 @@ class Comment extends AbstractNode
         parent::__construct($content);
     }
 
-    /// @copydoc NodeInterface::__toString()
     public function __toString(): string
     {
         return "<!-- $this->content_ -->";

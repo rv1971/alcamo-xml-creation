@@ -15,7 +15,7 @@ class XmlDeclTest extends TestCase
         $encoding,
         $standalone,
         $expectedString
-    ) {
+    ): void {
         $decl = new XmlDecl($version, $encoding, $standalone);
 
         $this->assertNull($decl->getContent());
@@ -25,20 +25,20 @@ class XmlDeclTest extends TestCase
         $this->assertEquals($expectedString, (string)$decl);
     }
 
-    public function basicsProvider()
+    public function basicsProvider(): array
     {
         return [
-        [ null, null, null, '<?xml version="1.0" encoding="UTF-8"?>' ],
-        [
-        '1.1',
-        'ISO-8859-1',
-        true,
-        '<?xml version="1.1" encoding="ISO-8859-1" standalone="yes"?>'
-        ]
+            [ null, null, null, '<?xml version="1.0" encoding="UTF-8"?>' ],
+            [
+                '1.1',
+                'ISO-8859-1',
+                true,
+                '<?xml version="1.1" encoding="ISO-8859-1" standalone="yes"?>'
+            ]
         ];
     }
 
-    public function testVersionException()
+    public function testVersionException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
@@ -48,7 +48,7 @@ class XmlDeclTest extends TestCase
         new XmlDecl('3.0');
     }
 
-    public function testEncodingException()
+    public function testEncodingException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(

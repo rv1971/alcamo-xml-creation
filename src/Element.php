@@ -14,7 +14,7 @@ use alcamo\xml\Syntax;
  *
  * @sa [XML logical structures](https://www.w3.org/TR/xml/#sec-logical-struct)
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class Element extends AbstractNode implements
     \Countable,
@@ -93,7 +93,7 @@ class Element extends AbstractNode implements
         foreach ($this as $attrName => $attrValue) {
             $attrString = (string)(new $attrClass($attrName, $attrValue));
 
-            if ($attrString) {
+            if ($attrString != '') {
                 $result .= " $attrString";
             }
         }
@@ -111,21 +111,32 @@ class Element extends AbstractNode implements
         return "</$this->tagName_>";
     }
 
-
-    /// @copydoc NodeInterface::__toString()
+    /**
+     * @copybrief alcamo::xml_creation::NodeInterface::__toString()
+     *
+     * If the element content is not a string, serialize it with
+     * alcamo::xml_creation::Nodes::toXmlString().
+     *
+     * @return Empty element if the content is `null`. Element with start-tag
+     * and end-tag in all other cases.
+     */
     public function __toString(): string
     {
         $result = "<{$this->tagName_}{$this->createAttrString()}";
 
-        if (isset($this->content_)) {
-            /** Use Nodes::toXmlString() to serialize the content. */
-            $result .= '>'
-                . Nodes::toXmlString($this->content_)
-                . "</{$this->tagName_}>";
-        } else {
-            $result .= '/>';
-        }
+        switch (true) {
+            case is_string($this->content_):
+                return $result .= ">"
+                    . htmlspecialchars($this->content_)
+                    . "</{$this->tagName_}>";
 
-        return $result;
+            case isset($this->content_):
+                return $result .= '>'
+                    . Nodes::toXmlString($this->content_)
+                    . "</{$this->tagName_}>";
+
+            default:
+                return $result .= '/>';
+        }
     }
 }

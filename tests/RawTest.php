@@ -3,11 +3,10 @@
 namespace alcamo\xml_creation;
 
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\SyntaxError;
 
 class RawTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         $text =
         '<strong>At vero eos et accusam</strong> et justo duo dolores et ea rebum.';

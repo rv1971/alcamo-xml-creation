@@ -4,13 +4,14 @@ namespace alcamo\xml_creation;
 
 use alcamo\exception\SyntaxError;
 use alcamo\xml\Syntax;
+use Ds\Set;
 
 /**
  * @brief XML attribute that can be serialized to XML text
  *
  * @sa [XML logical structures](https://www.w3.org/TR/xml/#sec-logical-struct)
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class Attribute extends AbstractNode
 {
@@ -39,40 +40,58 @@ class Attribute extends AbstractNode
         return $this->name_;
     }
 
-    /// @copydoc NodeInterface::__toString()
+    /**
+     * @copybrief alcamo::xml_creation::NodeInterface::__toString()
+     *
+     * @return
+     * - Empty string if the content is `null`, an empty array or an empty
+     * iterable, thus omitting attributes which are empty in this sense.
+     * - Space-separated list if the content is a nonempty array or iterable,
+     * applying any necessary escaping.
+     * - Content converted to string in any other case, applying any necessary
+     * escaping.
+     */
     public function __toString(): string
     {
-        /** Return empty string if attribute value is `null`, thus omitting
-         *  attributes with value `null`. */
-        if (!isset($this->content_)) {
-            return '';
-        } elseif (is_array($this->content_)) {
-            /**
-             * If the content is an array or iterable, serialize it to a
-             * space-separated list. Return empty string for empty attributes
-             * or iterables.
-             */
-            if ($this->content_) {
-                $valueString = implode(' ', $this->content_);
-            } else {
+        switch (true) {
+            case !isset($this->content_):
                 return '';
-            }
-        } elseif (is_iterable($this->content_)) {
-            $valueString = '';
 
-            foreach ($this->content_ as $item) {
-                if ($valueString) {
-                    $valueString .= " $item";
-                } else {
-                    $valueString = $item;
+            case is_array($this->content_):
+                if (!$this->content_) {
+                    return '';
                 }
-            }
 
-            if ($valueString == '') {
-                return '';
-            }
-        } else {
-            $valueString = (string)$this->content_;
+                $valueString = implode(' ', $this->content_);
+                break;
+
+            case $this->content_ instanceof Set:
+                if ($this->content_->isEmpty()) {
+                    return '';
+                }
+
+                $valueString = $this->content_->join(' ');
+                break;
+
+            case is_iterable($this->content_):
+                $valueString = '';
+
+                foreach ($this->content_ as $item) {
+                    if ($valueString != '') {
+                        $valueString .= " $item";
+                    } else {
+                        $valueString = $item;
+                    }
+                }
+
+                if ($valueString == '') {
+                    return '';
+                }
+
+                break;
+
+            default:
+                $valueString = (string)$this->content_;
         }
 
         return "{$this->name_}=\"" . htmlspecialchars($valueString) . '"';

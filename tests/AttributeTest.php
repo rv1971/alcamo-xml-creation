@@ -5,13 +5,14 @@ namespace alcamo\xml_creation;
 use PHPUnit\Framework\TestCase;
 use alcamo\collection\Collection;
 use alcamo\exception\SyntaxError;
+use Ds\Set;
 
 class AttributeTest extends TestCase
 {
   /**
    * @dataProvider basicsProvider
    */
-    public function testBasics($name, $content, $expectedString)
+    public function testBasics($name, $content, $expectedString): void
     {
         $attr = new Attribute($name, $content);
 
@@ -22,56 +23,68 @@ class AttributeTest extends TestCase
         $this->assertEquals($expectedString, (string)$attr);
     }
 
-    public function basicsProvider()
+    public function basicsProvider(): array
     {
         $content = 'bar="baz"';
 
         return [
-        'text-content' => [
-        'foo',
-        'At vero "eos" et <accusam> et justo duo dolores et ea rebum.',
-        'foo="At vero &quot;eos&quot; et &lt;accusam&gt; et justo duo dolores et ea rebum."'
-        ],
+            'text-content' => [
+                'foo',
+                'At vero "eos" et <accusam> et justo duo dolores et ea rebum.',
+                'foo="At vero &quot;eos&quot; et &lt;accusam&gt; et justo duo dolores et ea rebum."'
+            ],
 
-        'array-content' => [
-        'bar',
-        [ '123', '<4567>', "'quux'" ],
-        "bar=\"123 &lt;4567&gt; 'quux'\""
-        ],
+            'array-content' => [
+                'bar',
+                [ '123', '<4567>', "'quux'" ],
+                "bar=\"123 &lt;4567&gt; 'quux'\""
+            ],
 
-        'empty-array-content' => [
-        'baz',
-        [],
-        ''
-        ],
+            'empty-array-content' => [
+                'baz',
+                [],
+                ''
+            ],
 
-        'empty-object-content' => [
-        'baz',
-        new Collection(),
-        ''
-        ],
+            'set-content' => [
+                'class',
+                new Set([ 'bold', 'green' ]),
+                'class="bold green"'
+            ],
 
-        'empty-string' => [
-        'baz',
-        '',
-        'baz=""'
-        ],
+            'empty-set-content' => [
+                'style',
+                new Set(),
+                ''
+            ],
 
-        'null-content' => [
-        'baz',
-        null,
-        ''
-        ],
+            'empty-object-content' => [
+                'baz',
+                new Collection(),
+                ''
+            ],
 
-        'iterable-object-content' => [
-        'BAZ:QUX',
-        new Collection([ 'FOO', '"Foo', 'foo' ]),
-        'BAZ:QUX="FOO &quot;Foo foo"'
-        ]
+            'empty-string' => [
+                'baz',
+                '',
+                'baz=""'
+            ],
+
+            'null-content' => [
+                'baz',
+                null,
+                ''
+            ],
+
+            'iterable-object-content' => [
+                'BAZ:QUX',
+                new Collection([ 'FOO', '"Foo', 'foo' ]),
+                'BAZ:QUX="FOO &quot;Foo foo"'
+            ]
         ];
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(

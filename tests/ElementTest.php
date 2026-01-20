@@ -12,74 +12,101 @@ class ElementTest extends TestCase
   /**
    * @dataProvider basicsProvider
    */
-    public function testBasics($tagName, $attrs, $content, $expectedString)
-    {
-        $attr = new Element($tagName, $attrs, $content);
+    public function testBasics(
+        $tagName,
+        $attrs,
+        $content,
+        $expectedString,
+        $expectedOpeningTag,
+        $expectedClosingTag
+    ): void {
+        $element = new Element($tagName, $attrs, $content);
 
-        $this->assertSame($tagName, $attr->getTagName());
+        $this->assertSame($tagName, $element->getTagName());
 
         $this->assertSame(
-            $attrs instanceof Map ?  $attrs->toArray() : (array)$attrs,
-            $attr->getAttrs()
+            $attrs instanceof Map ? $attrs->toArray() : (array)$attrs,
+            $element->getAttrs()
         );
 
-        $this->assertSame($content, $attr->getContent());
+        $this->assertSame($content, $element->getContent());
 
-        $this->assertEquals($expectedString, (string)$attr);
+        $this->assertSame($expectedString, (string)$element);
+
+        $this->assertSame($expectedOpeningTag, $element->createOpeningTag());
+
+        $this->assertSame($expectedClosingTag, $element->createClosingTag());
     }
 
-    public function basicsProvider()
+    public function basicsProvider(): array
     {
         return [
-        'empty-tag' => [
-        'foo', null, null, '<foo/>'
-        ],
-        'empty-tag-with-attrs' => [
-        'bar',
-        [ 'baz' => '<<<qux>>>', 'QUUX' => [ 1, 2, 3 ] ],
-        null,
-        '<bar baz="&lt;&lt;&lt;qux&gt;&gt;&gt;" QUUX="1 2 3"/>'
-        ],
-        'tag-with-text-content' => [
-        'baz',
-        null,
-        'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-        '<baz>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</baz>'
-        ],
-        'tag-with-text-content-and-attrs' => [
-        'qux',
-        [ 'xml:id' => 'QUX', 'xml:lang' => 'oc' ],
-        'Coordinacion de totes los projèctes',
-        '<qux xml:id="QUX" xml:lang="oc">Coordinacion de totes los projèctes</qux>'
-        ],
-        'tag-with-array-content-and-attrs' => [
-        'ns42:quux',
-        [ 'rdf:ID' => 'element-42' ],
-        [ 'Lorem ', new Element('xh:b', null, 'ipsum'), ' dolor sit amet' ],
-        '<ns42:quux rdf:ID="element-42">Lorem <xh:b>ipsum</xh:b> dolor sit amet</ns42:quux>'
-        ],
-        'tag-with-complex-content-and-attr-object' => [
-        'body',
-        new Map([
-          'xmlns' => 'http://www.w3.org/1999/xhtml',
-          'class' => 'overview'
-        ]),
-        new Element(
-            'div',
-            [ 'class' => 'main' ],
-            new Collection([
-            'Stet clita kasd gubergren, ',
-            new Element('i', null, 'no sea takimata'),
-            '.'
-            ])
-        ),
-        '<body xmlns="http://www.w3.org/1999/xhtml" class="overview">'
-        . '<div class="main">Stet clita kasd gubergren, <i>no sea takimata</i>.</div></body>'
-        ]
+            'empty-tag' => [
+                'foo', null, null, '<foo/>', '<foo>', '</foo>'
+            ],
+            'empty-tag-with-attrs' => [
+                'bar',
+                [ 'baz' => '<<<qux>>>', 'QUUX' => [ 1, 2, 3 ] ],
+                null,
+                '<bar baz="&lt;&lt;&lt;qux&gt;&gt;&gt;" QUUX="1 2 3"/>',
+                '<bar baz="&lt;&lt;&lt;qux&gt;&gt;&gt;" QUUX="1 2 3">',
+                '</bar>'
+            ],
+            'tag-with-text-content' => [
+                'baz',
+                null,
+                'Stet clita kasd gubergren & no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                '<baz>Stet clita kasd gubergren &amp; no sea takimata sanctus est Lorem ipsum dolor sit amet.</baz>',
+                '<baz>',
+                '</baz>',
+            ],
+            'tag-with-text-content-and-attrs' => [
+                'qux',
+                [ 'xml:id' => 'QUX', 'xml:lang' => 'oc' ],
+                'Coordinacion de totes los projèctes',
+                '<qux xml:id="QUX" xml:lang="oc">Coordinacion de totes los projèctes</qux>',
+                '<qux xml:id="QUX" xml:lang="oc">',
+                '</qux>'
+
+            ],
+            'tag-with-array-content-and-attrs' => [
+                'ns42:quux',
+                [ 'rdf:ID' => 'element-42' ],
+                [
+                    'Lorem ',
+                    new Element('xh:b', null, 'ipsum'),
+                    ' dolor sit ',
+                    new Raw('<i>amet</i>')
+                ],
+                '<ns42:quux rdf:ID="element-42">Lorem <xh:b>ipsum</xh:b> dolor sit <i>amet</i></ns42:quux>',
+                '<ns42:quux rdf:ID="element-42">',
+                '</ns42:quux>'
+
+            ],
+            'tag-with-complex-content-and-attr-object' => [
+                'body',
+                new Map([
+                    'xmlns' => 'http://www.w3.org/1999/xhtml',
+                    'class' => 'overview'
+                ]),
+                new Element(
+                    'div',
+                    [ 'class' => 'main' ],
+                    new Collection([
+                        'Stet clita kasd gubergren, ',
+                        new Element('i', null, 'no sea takimata'),
+                        '.'
+                    ])
+                ),
+                '<body xmlns="http://www.w3.org/1999/xhtml" class="overview">'
+                . '<div class="main">Stet clita kasd gubergren, <i>no sea takimata</i>.</div></body>',
+                '<body xmlns="http://www.w3.org/1999/xhtml" class="overview">',
+                '</body>'
+            ]
         ];
     }
 
-    public function testTagNameException()
+    public function testTagNameException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(
@@ -89,7 +116,7 @@ class ElementTest extends TestCase
         new Element('.qux');
     }
 
-    public function testAttrNameException()
+    public function testAttrNameException(): void
     {
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage(

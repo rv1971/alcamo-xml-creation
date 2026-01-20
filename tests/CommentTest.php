@@ -7,7 +7,7 @@ use alcamo\exception\SyntaxError;
 
 class CommentTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         $text = 'Stet clita kasd gubergren, no sea takimata sanctus est Lorem '
             . 'ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur '
@@ -34,7 +34,7 @@ class CommentTest extends TestCase
         $this->assertEquals("<!-- $text -->", (string)$comment);
     }
 
-    public function testException()
+    public function testException(): void
     {
         $text = 'Stet clita kasd gubergren -- no sea takimata sanctus est Lorem ipsum dolor sit amet.';
 

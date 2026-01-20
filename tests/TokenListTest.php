@@ -3,13 +3,12 @@
 namespace alcamo\xml_creation;
 
 use PHPUnit\Framework\TestCase;
-use alcamo\exception\SyntaxError;
 
 /* This also tests IteratorAggregateTrait and DecoratorTrait. */
 
 class TokenListTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         $tokens1 = 'foo bar baz qux';
 

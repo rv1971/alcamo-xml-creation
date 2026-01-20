@@ -7,7 +7,7 @@ use alcamo\collection\Collection;
 /**
  * @brief Array of XML nodes that can be serialized to XML text
  *
- * @date Last reviewed 2021-06-15
+ * @date Last reviewed 2026-01-20
  */
 class Nodes extends Collection
 {
@@ -21,19 +21,22 @@ class Nodes extends Collection
      */
     public static function toXmlString($data): string
     {
-        $output = '';
+        switch (true) {
+            case $data instanceof NodeInterface:
+                return $data;
 
-        if ($data instanceof NodeInterface) {
-            $output .= $data;
-        } elseif (is_iterable($data)) {
-            foreach ($data as $item) {
-                $output .= static::toXmlString($item);
-            }
-        } else {
-            $output .= htmlspecialchars($data, ENT_NOQUOTES);
+            case is_iterable($data):
+                $output = '';
+
+                foreach ($data as $item) {
+                    $output .= static::toXmlString($item);
+                }
+
+                return $output;
+
+            default:
+                return htmlspecialchars($data, ENT_NOQUOTES);
         }
-
-        return $output;
     }
 
     public function __construct(...$data)
@@ -53,16 +56,24 @@ class Nodes extends Collection
     }
 
     /// Build a flat array of nodes by flattening iterable items
-    public function append($data)
+    public function append($data): void
     {
-        if ($data instanceof NodeInterface) {
-            $this->data_[] = $data;
-        } elseif (is_iterable($data)) {
-            foreach ($data as $item) {
-                $this->append($item);
-            }
-        } else {
-            $this->data_[] = $data;
+        switch (true) {
+            /* This must be tested before is_iterable because NodeInterface
+             * exteds is_iterable. */
+            case $data instanceof NodeInterface:
+                $this->data_[] = $data;
+                return;
+
+            case is_iterable($data):
+                foreach ($data as $item) {
+                    $this->append($item);
+                }
+
+                return;
+
+            default:
+                $this->data_[] = $data;
         }
     }
 }
