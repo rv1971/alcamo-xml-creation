@@ -51,9 +51,14 @@ class ProcessingInstruction extends AbstractNode
         return $this->target_;
     }
 
-    /// @copydoc NodeInterface::__toString()
+    /**
+     * @copybrief alcamo::xml_creation::NodeInterface::__toString()
+     *
+     * Unlike all other classes derived from NodeInterface, no escaping of
+     * special characters in the content takes place here.
+     */
     public function __toString(): string
     {
-        return "<?$this->target_ " . htmlspecialchars($this->content_) . '?>';
+        return "<?$this->target_ $this->content_?>";
     }
 }

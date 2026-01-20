@@ -9,7 +9,7 @@ class ProcessingInstructionTest extends TestCase
 {
     public function testBasics(): void
     {
-        $text = 'At vero eos et accusam > et justo';
+        $text = 'At vero eos et accusam > et justo duo dolores et ea rebum.';
 
         $target = 'foo';
 
@@ -19,10 +19,7 @@ class ProcessingInstructionTest extends TestCase
 
         $this->assertSame($text, $pi->getContent());
 
-        $this->assertEquals(
-            '<?foo At vero eos et accusam &gt; et justo?>',
-            (string)$pi
-        );
+        $this->assertEquals("<?foo $text?>", (string)$pi);
     }
 
   /**

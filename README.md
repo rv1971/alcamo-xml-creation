@@ -54,14 +54,14 @@ directory. It will output
 ~~~
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE foo SYSTEM "foo.dtd" [ <!ATTLIST bar id ID #IMPLIED> ]>
-<?xml-stylesheet href=&quot;xsl/foo.xsl&quot; type=&quot;text/xsl&quot;?>
+<?xml-stylesheet href="xsl/foo.xsl" type="text/xsl"?>
 <foo xml:lang="is">
 <!-- Lorem ipsum &amp; dolor. -->
 <bar id="my-bar">sed diam &lt;nonumy&gt; eirmod tempor</bar>
 <baz>consetetur sadipscing elitr</baz>
 </foo>
 
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo SYSTEM "foo.dtd" [ <!ATTLIST bar id ID #IMPLIED> ]><?xml-stylesheet href=&quot;xsl/foo.xsl&quot; type=&quot;text/xsl&quot;?><foo xml:lang="is"><!-- Lorem ipsum &amp; dolor. --><bar id="my-bar">sed diam &lt;nonumy&gt; eirmod tempor</bar><baz>consetetur sadipscing elitr</baz></foo>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo SYSTEM "foo.dtd" [ <!ATTLIST bar id ID #IMPLIED> ]><?xml-stylesheet href="xsl/foo.xsl" type="text/xsl"?><foo xml:lang="is"><!-- Lorem ipsum &amp; dolor. --><bar id="my-bar">sed diam &lt;nonumy&gt; eirmod tempor</bar><baz>consetetur sadipscing elitr</baz></foo>
 ~~~
 
 See the doxygen documentation for details.
