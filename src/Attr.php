@@ -13,7 +13,7 @@ use Ds\Set;
  *
  * @date Last reviewed 2026-01-20
  */
-class Attribute extends AbstractNode
+class Attr extends AbstractNode
 {
     protected $name_; ///< string
 

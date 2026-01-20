@@ -7,14 +7,14 @@ use alcamo\collection\Collection;
 use alcamo\exception\SyntaxError;
 use Ds\Set;
 
-class AttributeTest extends TestCase
+class AttrTest extends TestCase
 {
   /**
    * @dataProvider basicsProvider
    */
     public function testBasics($name, $content, $expectedString): void
     {
-        $attr = new Attribute($name, $content);
+        $attr = new Attr($name, $content);
 
         $this->assertSame($name, $attr->getName());
 
@@ -91,6 +91,6 @@ class AttributeTest extends TestCase
             "Syntax error in \"-bar\"; not a valid XML attribute name"
         );
 
-        new Attribute('-bar', 'baz');
+        new Attr('-bar', 'baz');
     }
 }

@@ -24,7 +24,7 @@ class Element extends AbstractNode implements
     use ReadonlyCollectionTrait;
 
     /// Attribute class used for serialization of attributes
-    public const ATTR_CLASS = Attribute::class;
+    public const ATTR_CLASS = Attr::class;
 
     protected $tagName_; ///< string
 
