@@ -86,8 +86,8 @@ class Nodes extends Collection
     public function append($data): void
     {
         switch (true) {
-            /* This must be tested before is_iterable because NodeInterface
-             * exteds is_iterable. */
+            /* This must be tested before is_iterable because a NodeInterface
+             * may be iterable. */
             case $data instanceof NodeInterface:
                 $this->data_[] = $data;
                 return;
