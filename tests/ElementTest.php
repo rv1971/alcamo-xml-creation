@@ -55,8 +55,9 @@ class ElementTest extends TestCase
             'tag-with-text-content' => [
                 'baz',
                 null,
-                'Stet clita kasd gubergren & no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-                '<baz>Stet clita kasd gubergren &amp; no sea takimata sanctus est Lorem ipsum dolor sit amet.</baz>',
+                'Stet "clita" \'kasd\' gubergren & no <sea> takimata sanctus est Lorem ipsum dolor sit amet.',
+                '<baz>Stet "clita" \'kasd\' gubergren &amp; no &lt;sea&gt; '
+                . 'takimata sanctus est Lorem ipsum dolor sit amet.</baz>',
                 '<baz>',
                 '</baz>',
             ],

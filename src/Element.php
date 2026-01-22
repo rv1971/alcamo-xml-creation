@@ -127,7 +127,10 @@ class Element extends AbstractNode implements
         switch (true) {
             case is_string($this->content_):
                 return $result .= ">"
-                    . htmlspecialchars($this->content_)
+                    . htmlspecialchars(
+                        $this->content_,
+                        ENT_NOQUOTES | ENT_SUBSTITUTE
+                    )
                     . "</{$this->tagName_}>";
 
             case isset($this->content_):
