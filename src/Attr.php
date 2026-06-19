@@ -94,6 +94,11 @@ class Attr extends AbstractNode
                 $valueString = (string)$this->content_;
         }
 
-        return "{$this->name_}=\"" . htmlspecialchars($valueString) . '"';
+        return "{$this->name_}=\"" .
+            htmlspecialchars(
+                $valueString,
+                ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML401
+            )
+            . '"';
     }
 }

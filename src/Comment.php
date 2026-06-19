@@ -32,6 +32,11 @@ class Comment extends AbstractNode
 
     public function __toString(): string
     {
-        return '<!--' . htmlspecialchars($this->content_) . '-->';
+        return '<!--' .
+            htmlspecialchars(
+                $this->content_,
+                ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML401
+            )
+            . '-->';
     }
 }
